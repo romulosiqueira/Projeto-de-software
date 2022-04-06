@@ -40,6 +40,18 @@ public class User {
         return this.password;
     }
 
+    public User[] getFriends() {
+        return this.friends;
+    }
+
+    public User[] getFriendRequests() {
+        return this.friendsRequests;
+    }
+
+    public Message[] getMessages() {
+        return this.messages;
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }

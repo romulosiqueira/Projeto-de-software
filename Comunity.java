@@ -16,6 +16,10 @@ public class Comunity {
         return name;
     }
 
+    public User getOwner() {
+        return admin;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

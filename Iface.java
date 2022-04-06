@@ -20,8 +20,10 @@ public class Iface {
             System.out.println("9. Send friend request");
             System.out.println("10. Accept friend request");
             System.out.println("11. Decline friend request");
-            System.out.println("12. Logout");
-            System.out.println("13. Exit");
+            System.out.println("12. Edit profile");
+            System.out.println("13. Delete account");
+            System.out.println("14. Logout");
+            System.out.println("15. Exit");
             Scanner scanner = new Scanner(System.in);
             userInput = scanner.nextInt();
             switch (userInput) {
@@ -59,9 +61,17 @@ public class Iface {
                     declineFriendRequest();
                     break;
                 case 12:
-                    logout();
+                    editProfile();
                     break;
                 case 13:
+                    deleteAccount();
+
+                    break;
+                case 14:
+                    logout();
+
+                    break;
+                case 15:
                     exit();
                     break;
                 default:
@@ -69,6 +79,76 @@ public class Iface {
                     break;
             }
         } while (userInput != 13);
+    }
+
+    public void editProfile() {
+        System.out.println("Enter your new name");
+        Scanner scanner = new Scanner(System.in);
+        String newName = scanner.nextLine();
+        System.out.println("Enter your new surname");
+        String newSurname = scanner.nextLine();
+        System.out.println("Enter your new email");
+        String newEmail = scanner.nextLine();
+
+        System.out.println("Enter your new password");
+        String newPassword = scanner.nextLine();
+        System.out.println("Enter your new password again");
+        String newPasswordAgain = scanner.nextLine();
+        if (newPassword.equals(newPasswordAgain)) {
+            currentUser.setName(newName);
+            currentUser.setSurname(newSurname);
+            currentUser.setEmail(newEmail);
+            currentUser.setPassword(newPassword);
+        } else {
+            System.out.println("Passwords do not match");
+        }
+    }
+
+    public void deleteAccount() {
+        System.out.println("Are you sure you want to delete your account? (y/n)");
+        // delete user, his messages and his comunities
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if (userInput.equals("y")) {
+            for (int i = 0; i < users.length; i++) {
+                if (users[i].getEmail().equals(currentUser.getEmail())) {
+                    users[i] = null;
+                }
+            }
+            for (int i = 0; i < comunities.length; i++) {
+                if (comunities[i].getOwner().getEmail().equals(currentUser.getEmail())) {
+                    comunities[i] = null;
+                }
+            }
+            for (int i = 0; i < users.length; i++) {
+                for (int j = 0; j < users[i].getMessages().length; j++) {
+                    if (users[i].getMessages()[j].getSender().getEmail().equals(currentUser.getEmail())) {
+                        users[i].getMessages()[j] = null;
+                    }
+                }
+            }
+            for (int i = 0; i < users.length; i++) {
+                for (int j = 0; j < users[i].getMessages().length; j++) {
+                    if (users[i].getMessages()[j].getReceiver().getEmail().equals(currentUser.getEmail())) {
+                        users[i].getMessages()[j] = null;
+                    }
+                }
+            }
+            for (int i = 0; i < users.length; i++) {
+                for (int j = 0; j < users[i].getFriends().length; j++) {
+                    if (users[i].getFriends()[j].getEmail().equals(currentUser.getEmail())) {
+                        users[i].getFriends()[j] = null;
+                    }
+                }
+            }
+            for (int i = 0; i < users.length; i++) {
+                for (int j = 0; j < users[i].getFriendRequests().length; j++) {
+                    if (users[i].getFriendRequests()[j].getEmail().equals(currentUser.getEmail())) {
+                        users[i].getFriendRequests()[j] = null;
+                    }
+                }
+            }
+        }
     }
 
     public void createComunity() {
